@@ -170,3 +170,12 @@ plugins:
   topic_list_test_image_url_timeout:
     default: 5000
     client: true
+  topic_list_default_audio_thumbnail:
+    default: ''
+    client: true
+  topic_list_audio_thumbnail_width:
+    default: 100
+    client: true
+  topic_list_audio_thumbnail_height:
+    default: 100
+    client: true
