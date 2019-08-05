@@ -73,10 +73,31 @@ var testImageUrl = function(thumbnails, callback) {
   img.src = url;
 };
 
-let getDefaultThumbnail = function(category) {
+let getDefaultThumbnail = function(category,topic) {
   let catThumb = category ? category.topic_list_default_thumbnail : false;
   let defaultThumbnail = catThumb || Discourse.SiteSettings.topic_list_default_thumbnail;
+
+
+  if(topic.tags.length > 0){
+    if (topic.tags.includes("images")){
+      defaultThumbnail = category ? category.topic_list_default_image_thumbnail : defaultThumbnail;
+    }
+    else if( topic.tags.includes("audios") ){
+      console.log("audios")
+      defaultThumbnail = category ? category.topic_list_default_audio_thumbnail : defaultThumbnail;
+    }
+    else if( topic.tags.includes("videos") ){
+      defaultThumbnail = category ? category.topic_list_default_video_thumbnail : defaultThumbnail;
+    }
+    else if( topic.tags.includes("interactives") ){
+      defaultThumbnail = category ? category.topic_list_default_interactive_thumbnail : defaultThumbnail;
+    }
+    else if( topic.tags.includes("documents") ){
+      defaultThumbnail = category ? category.topic_list_default_document_thumbnail : defaultThumbnail;
+    }
+  }
   return defaultThumbnail ? defaultThumbnail : false;
+  
 }
 
 var buttonHTML = function(action) {
