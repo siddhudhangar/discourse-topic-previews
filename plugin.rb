@@ -69,7 +69,13 @@ after_initialize do
     "topic_list_default_thumbnail",
     "topic_list_thumbnail_width",
     "topic_list_thumbnail_height",
-    "topic_list_featured_images"
+    "topic_list_featured_images",
+    "topic_list_default_audio_thumbnail",
+    "topic_list_default_image_thumbnail",
+    "topic_list_default_video_thumbnail",
+    "topic_list_default_interactive_thumbnail",
+    "topic_list_default_document_thumbnail"
+
   ].each do |key|
     Site.preloaded_category_custom_fields << key if Site.respond_to? :preloaded_category_custom_fields
     add_to_serializer(:basic_category, key.to_sym, false) { object.custom_fields[key] }
