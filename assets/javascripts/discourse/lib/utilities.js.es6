@@ -78,7 +78,7 @@ let getDefaultThumbnail = function(category,topic) {
   let defaultThumbnail = catThumb || Discourse.SiteSettings.topic_list_default_thumbnail;
 
 
-  if(topic.tags.length > 0){
+  if(topic && topic.tags && topic.tags.length > 0){
     if (topic.tags.includes("images")){
       defaultThumbnail = category ? Discourse.SiteSettings.topic_list_default_image_thumbnail : defaultThumbnail;
     }

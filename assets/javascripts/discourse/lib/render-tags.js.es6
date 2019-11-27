@@ -73,53 +73,66 @@ export default function(topic, params) {
   }
 
   if (customHtml || (tags && tags.length > 0)) {
-  console.log("00000000000000000000000000000000000000")
-  console.log(getTagGroups())
-  console.log("00000000000000000000000000000000000000")
   var tagGroups = getTagGroups()
-  console.log(tagGroups.tag_groups)
-  for (let i = 0; i < tagGroups.tag_groups.length; i++) {
-    console.log("99999999999999999999999")
-    console.log(tagGroups.tag_groups[i].name)
-  }
-  buffer = "<div class='discourse-tags'>";
-  if (tags) {
-  if (tagGroups){
-  var tag_list = ""
-  for(let i = 0; i < tagGroups.tag_groups.length; i++){
-    let intersection = tagGroups.tag_groups[i].tag_names.filter(x => tags.includes(x));
-    if (intersection.length > 0){
-      var temp = ""
-      for(let i = 0; i < intersection.length; i++){
-        temp += '<a href="/tags/'+intersection[i]+'" data-tag-name="'+intersection[i]+'" class="discourse-tag simple">'+intersection[i]+'</a>'
+
+  if(tagGroups){
+    console.log(tagGroups.tag_groups)
+    for (let i = 0; i < tagGroups.tag_groups.length; i++) {
+      console.log("99999999999999999999999")
+      console.log(tagGroups.tag_groups[i].name)
+    }
+    buffer = "<div class='discourse-tags'>";
+    if (tags) {
+    if (tagGroups){
+    var tag_list = ""
+    for(let i = 0; i < tagGroups.tag_groups.length; i++){
+      let intersection = tagGroups.tag_groups[i].tag_names.filter(x => tags.includes(x));
+      if (intersection.length > 0){
+        var temp = ""
+        for(let i = 0; i < intersection.length; i++){
+          temp += '<a href="/tags/'+intersection[i]+'" data-tag-name="'+intersection[i]+'" class="discourse-tag simple">'+intersection[i]+'</a>'
+        }
+        buffer+= " " + tagGroups.tag_groups[i].name + " : " + temp
       }
-      buffer+= " " + tagGroups.tag_groups[i].name + " : " + temp
-    }
-    for(let j=0; j < intersection.length; j++){
-      console.log("============")
+      for(let j=0; j < intersection.length; j++){
+        console.log("============")
+        console.log(tags)
+        console.log("============")
+        tags = tags.filter(item => item !== intersection[j])
+      }
+
       console.log(tags)
-      console.log("============")
-      tags = tags.filter(item => item !== intersection[j])
     }
+    for (let i = 0; i < tags.length; i++) {
+          if (tags[i]){
+            buffer +=
+            renderTag(tags[i], { isPrivateMessage, tagsForUser, tagName }) + " ";
+          }
+          }
 
-    console.log(tags)
+      }
+      if (customHtml) {
+        buffer += customHtml;
+      }
+
+      buffer += "</div";
+    }
   }
-
+  else
+  {
+    buffer = "<div class='discourse-tags'>";
+    if (tags) {
       for (let i = 0; i < tags.length; i++) {
-        if (tags[i]){
-          buffer +=
+        buffer +=
           renderTag(tags[i], { isPrivateMessage, tagsForUser, tagName }) + " ";
-        }
-        }
-
+      }
     }
-
 
     if (customHtml) {
       buffer += customHtml;
     }
 
-    buffer += "</div";
+    buffer += "</div>";
   }
   }
   return buffer;
